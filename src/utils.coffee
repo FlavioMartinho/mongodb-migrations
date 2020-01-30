@@ -11,19 +11,23 @@ exports._buildOptions = _buildOptions = (config) ->
   options = config.options || {}
 
   { poolSize } = config
+
   if poolSize?
     console.warn('''
-      The `poolSize` config param is deprecated.
-      Use `options: { server: { poolSize: poolSize} }` instead.
-    ''')
-    if _.get(options, 'server.poolSize')
-      console.warn('''
-        The `poolSize` is overriding the `options: { server: { poolSize: poolSize} }` value.
+        The `config.poolSize` is overriding the `options: { poolSize: poolSize }` value.
       ''')
-    _.set(options, 'server.poolSize', poolSize)
+  else if _.get(options, 'server.poolSize')
+    console.warn('''
+      The `server.poolSize` option is deprecated.
+      Use `options: { poolSize: poolSize }` instead.
+    ''')
+    poolSize = _.get(options, 'poolSize', _.get(options, 'server.poolSize'))
+  else if _.get(options, 'poolSize')
+    poolSize = _.get(options, 'poolSize')
+  else
+    poolSize = DEFAULT_POOL_SIZE
 
-  if not _.get(options, 'server.poolSize')
-    _.set(options, 'server.poolSize', DEFAULT_POOL_SIZE)
+  _.set(options, 'poolSize', poolSize)
 
   return options
 
