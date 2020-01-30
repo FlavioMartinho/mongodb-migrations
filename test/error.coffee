@@ -9,7 +9,7 @@ describe 'Migrator Errors Handling', ->
   beforeEach (done) ->
     testsCommon.beforeEach (res) ->
       {migrator, db} = res
-      coll = db.collection 'test'
+      coll = db.db().collection 'test'
       coll.remove {}, ->
         done()
 

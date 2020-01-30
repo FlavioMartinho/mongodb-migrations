@@ -10,13 +10,13 @@ describe 'Migrator Rollback', ->
   beforeEach (done) ->
     testsCommon.beforeEach (res) ->
       {migrator, db} = res
-      coll = db.collection 'test'
+      coll = db.db().collection 'test'
       coll.remove {}, ->
         done()
 
   it 'should cleanup the migrations collection properly', (done) ->
     dir = path.join __dirname, 'migrations'
-    migrationsCol = db.collection '_migrations'
+    migrationsCol = db.db().collection '_migrations'
 
     migrator.runFromDir dir, (err, res) ->
       return done(err) if err

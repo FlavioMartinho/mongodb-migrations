@@ -10,8 +10,8 @@ describe 'Migrations Collection', ->
   beforeEach (done) ->
     testsCommon.beforeEach (res) ->
       {migrator, db, config} = res
-      migrationColl = db.collection(config.collection)
-      coll = db.collection 'test'
+      migrationColl = db.db().collection(config.collection)
+      coll = db.db().collection 'test'
       coll.remove {}, ->
         done()
 
